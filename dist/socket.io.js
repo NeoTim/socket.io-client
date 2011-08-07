@@ -1469,17 +1469,7 @@
  */
 
 (function (exports, io) {
-
-  /* Stub code for a node.js context */
-  if ('object' === typeof module && 'function' === typeof require) {
-    var document = {};
-    var window = {location:{}};
-    var http = require('http'),
-      parseurl = require('url').parse;
-    var web = false;
-  } else {
-    var web = true;
-  }
+  
 
   /**
    * Expose constructor.
@@ -1607,24 +1597,8 @@
         , io.util.query(this.options.query, 't=' + +new Date)
       ].join('/');
 
-    if (!web) {
-      var o = {
-        host: options.host,
-        port: options.port,
-        path: '/' + this.options.resource + '/' + io.protocol + '/'
-      };
-      http.get(o, function(res) {
-        var data = '';
-        res.on('data', function(chunk) { data += chunk; });
-        res.on('end', function() {
-          if (res.statusCode == 200) {
-            complete(data);
-          } else {
-            !self.reconnecting && self.onError(xhr.responseText);
-          }
-        });
-      });
-    } else if (this.isXDomain()) {
+    
+    if (this.isXDomain()) {
       var insertAt = document.getElementsByTagName('script')[0]
         , script = document.createElement('SCRIPT');
 
@@ -1652,6 +1626,7 @@
       };
       xhr.send(null);
     }
+    
   };
 
   /**
@@ -2252,14 +2227,6 @@
 
 (function (exports, io) {
 
-  /**
-   * Add stubs for nodejs websocket-client
-   */
-
-  if ('object' === typeof module && 'function' === typeof require) {
-    var window = require('websocket-client');
-    var WebSocket = window.WebSocket;
-  }
 
   /**
    * Expose constructor.
